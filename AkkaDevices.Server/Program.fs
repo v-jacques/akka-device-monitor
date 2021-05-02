@@ -20,6 +20,7 @@ let main argv =
     let system = System.create "device-manager-server" serverConfig // Akka actor system.
     system.ActorOf(Props(typedefof<DeviceManagerActor>, [||]), "device-manager") |> ignore // Device manager creation.
 
-    while true do () // Infinite loop to keep process alive.
+    Console.ReadKey() |> ignore // Runs application until a key is pressed.
+    system.Terminate() |> Async.AwaitTask |> Async.RunSynchronously
 
     0 // Return an integer exit code.
